@@ -5,10 +5,10 @@ import org.bson.types.ObjectId;
 
 import java.util.List;
 
-public interface MsgDAO
-{
+public interface MsgDAO {
+    void saveMsg(MsgDocument msg);
 
-    public void saveMsg(MsgDocument msg);
-    public List<MsgDocument> findAll();
-    public void deleteById(ObjectId id);
+    List<MsgDocument> findAll();
+
+    void deleteById(String id);
 }

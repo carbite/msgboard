@@ -33,7 +33,7 @@ public class MsgController
     }
 
     @RequestMapping(value = "/delete")
-    public String delete(ObjectId id)
+    public String delete(String id)
     {
         System.out.println(id);
         msgDAO.deleteById(id);
