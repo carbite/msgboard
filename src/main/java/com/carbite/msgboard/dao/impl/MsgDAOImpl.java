@@ -29,13 +29,14 @@ public class MsgDAOImpl implements MsgDAO
     }
 
     @Override
-    public void deleteById(ObjectId id) {
+    public void deleteById(String id) {
         System.out.println(id.toString());
-        Query query=new Query(Criteria.where("_id").is(id));
-        MsgDocument sss = mongoTemplate.findOne(query,MsgDocument.class);
+        Query query=new Query(Criteria.where("id").is(id));
+        MsgDocument doc = mongoTemplate.findOne(query,MsgDocument.class);
         System.out.println(query.toString());
-        if(sss!=null)
-            System.out.println(sss.getName());
+        if(doc!=null) {
+            System.out.println(doc.getName()+" Not Found");
+        }
         mongoTemplate.remove(query,MsgDocument.class);
     }
 }
