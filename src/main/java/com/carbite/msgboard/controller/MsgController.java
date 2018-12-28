@@ -1,9 +1,7 @@
 package com.carbite.msgboard.controller;
 
-import com.carbite.msgboard.dao.impl.MsgDAOImpl;
 import com.carbite.msgboard.document.MsgDocument;
-import com.carbite.msgboard.dao.MsgDAO;
-import org.bson.types.ObjectId;
+import com.carbite.msgboard.jpa.MsgJPA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,12 +13,12 @@ import java.util.List;
 public class MsgController
 {
     @Autowired
-    private MsgDAO msgDAO;
+    private MsgJPA msgJPA;
 
     @RequestMapping(value = "/index")
     public String index(Model model)
     {
-        List<MsgDocument> msgs = msgDAO.findAll();
+        List<MsgDocument> msgs = msgJPA.findAll();
         model.addAttribute("msgs",msgs);
         return "index";
     }
@@ -28,7 +26,7 @@ public class MsgController
     @RequestMapping(value = "/add")
     public String add(MsgDocument msg)
     {
-        msgDAO.saveMsg(msg);
+        msgJPA.save(msg);
         return "redirect:/index";
     }
 
@@ -36,7 +34,7 @@ public class MsgController
     public String delete(String id)
     {
         System.out.println(id);
-        msgDAO.deleteById(id);
+        msgJPA.deleteById(id);
         return "redirect:/index";
     }
 }
