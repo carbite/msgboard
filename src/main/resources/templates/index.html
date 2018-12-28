@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Title</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body background="/bg.jpg">
+
+<div class="container">
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="text-center">留言板</h1>
+        </div>
+    </div>
+    <br>
+    <form class="row form-horizontal"   th:action="@{/add}"  method="post">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-2 input-group">
+            <span class="input-group-addon">昵称:&nbsp;&nbsp;</span>
+            <input name = "name" id = "name" type="text" class="form-control" placeholder="在此留名">
+        </div>
+        <div class="col-md-4 input-group">
+            <span class="input-group-addon">留言:&nbsp;&nbsp;</span>
+            <input name = "msg" id = "msg" type="text" class="form-control" placeholder="在此留言">
+        </div>
+        <div class="col-md-2">
+            <input class="btn btn-success" type="submit" value="保存"></input>
+        </div>
+        <div class="col-md-2"></div>
+    </form>
+    <br>
+    <div class="row text-center">
+        <div class="col-md-2"></div>
+        <div id = "content" class="col-md-8">
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <th>昵称</th>
+                    <th>姓名</th>
+                    <th>objectId</th>
+                    <th>删除</th>
+                </tr>
+                <tr  th:each="message : ${msgs}">
+                    <td th:text="${message.name}"></td>
+                    <td th:text="${message.msg}"></td>
+                    <td th:text="${message.id}"></td>
+                    <td><a class="btn btn-danger" th:href="@{/delete(id=${message.id})}">删除</a></td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+</body>
+</html>
