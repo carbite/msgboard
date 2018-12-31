@@ -1,42 +1,35 @@
 package com.carbite.msgboard.controller;
 
-import com.carbite.msgboard.dao.impl.MsgDAOImpl;
-import com.carbite.msgboard.document.MsgDocument;
-import com.carbite.msgboard.dao.MsgDAO;
-import org.bson.types.ObjectId;
+import com.carbite.msgboard.entity.Msg;
+import com.carbite.msgboard.service.MsgService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping(value = "/index")
 public class MsgController
 {
     @Autowired
-    private MsgDAO msgDAO;
+    private MsgService msgService;
 
-    @RequestMapping(value = "/index")
-    public String index(Model model)
+    @RequestMapping(value = "/list")
+    public List<Msg> list()
     {
-        List<MsgDocument> msgs = msgDAO.findAll();
-        model.addAttribute("msgs",msgs);
-        return "index";
+        return msgService.findAllMsg();
     }
 
-    @RequestMapping(value = "/add")
-    public String add(MsgDocument msg)
+    @RequestMapping(value = "/add",method=RequestMethod.POST)
+    public void add(Msg msg)
     {
-        msgDAO.saveMsg(msg);
-        return "redirect:/index";
+        msgService.addMsg(msg);
     }
 
-    @RequestMapping(value = "/delete")
-    public String delete(String id)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    public void delete(@PathVariable("id") String id)
     {
-        System.out.println(id);
-        msgDAO.deleteById(id);
-        return "redirect:/index";
+        msgService.deleteMsg(id);
     }
 }

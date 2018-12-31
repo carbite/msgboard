@@ -1,16 +1,12 @@
-package com.carbite.msgboard.document;
+package com.carbite.msgboard.entity;
 
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import java.io.Serializable;
 
 @Document(collection = "message")
-public class MsgDocument implements Serializable
+public class Msg implements Serializable
 {
     //Object_id
     @Indexed

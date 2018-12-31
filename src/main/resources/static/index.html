@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <script src="js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        function load() {
+            //先清空除表头以外的内容
+            $("#allMsg tr:not(:first)").html("");
+            $.get("/index/list",function (data, status) {
+                for (var i=0;i<data.length;i++)
+                {
+                    //引号嵌套总是会出错，所以单独提出来
+                    var mid = '"' +data[i].id +'"';
+                    $("#allMsg").append(
+                        "<tr> <td>"+data[i].name+"</td><td>"+data[i].msg+"</td><td>"+data[i].id
+                        +"</td><td><button class='btn btn-danger' onclick='del("+mid+")'>删除</button></td>"
+                    );
+                }
+            });
+        }
+        function del(mid) {
+            $.get("/index/delete/"+mid,function (data, status) {
+//                if (status == "success")
+//                    alert("del yes");
+            });
+            load();
+        }
+        function add() {
+            $.post("/index/add",
+                {
+                    name:$("#mname").val(),
+                    msg:$("#mmsg").val()
+                },
+                function(data,status){
+//                    if(status=="success")
+//                        alert("add yes");
+                });
+            load();
+        }
+        load();
+    </script>
+</head>
+<body background="/bg.jpg">
+
+<div class="container">
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="text-center">留言板</h1>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-2 input-group">
+            <span class="input-group-addon">昵称:&nbsp;&nbsp;</span>
+            <input  id = "mname" type="text" class="form-control" placeholder="在此留名">
+        </div>
+        <div class="col-md-4 input-group">
+            <span class="input-group-addon">留言:&nbsp;&nbsp;</span>
+            <input  id = "mmsg" type="text" class="form-control" placeholder="在此留言">
+        </div>
+        <div class="col-md-2">
+            <input class="btn btn-success" onclick="add()" value="保存"></input>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    <br>
+    <div class="row text-center">
+        <div class="col-md-2"></div>
+        <div id = "content" class="col-md-8">
+            <table class="table table-bordered table-hover" id="allMsg">
+                <tr>
+                    <th>昵称</th>
+                    <th>姓名</th>
+                    <th>id</th>
+                    <th>删除</th>
+                </tr>
+                <!--
+                <tr  each="message : ${msgs}">
+                    <td th:text="${message.name}"></td>
+                    <td th:text="${message.msg}"></td>
+                    <td th:text="${message.id}"></td>
+                    <td><a class="btn btn-danger" href="@{/delete(id=${message.id})}">删除</a></td>
+                </tr>
+                -->
+            </table>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+</body>
+</html>
